@@ -1,15 +1,18 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-// Esto une la ruta de la carpeta actual con el nombre del archivo
-const dbPath = path.resolve(__dirname, 'tasks.db');
+let db;
 
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error al conectar con la base de datos:', err.message);
-    } else {
-        console.log('Conectado con éxito a tasks.db');
-    }
-});
+// Si estamos en desarrollo, usamos SQLite
+if (process.env.NODE_ENV === 'development') {
+    const dbPath = path.resolve(__dirname, process.env.DATABASE_URL);
+    db = new sqlite3.Database(dbPath, (err) => {
+        if (err) console.error("Error con SQLite:", err.message);
+        else console.log("Conectado a SQLite local");
+    });
+} else {
+    // Aquí irá la conexión a Supabase (PostgreSQL) más adelante
+    console.log("Configurando conexión a PostgreSQL para producción...");
+}
 
 module.exports = db;
