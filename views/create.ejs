@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Nueva Tarea</title>
+</head>
+<body>
+    <h1>Crear Nueva Tarea</h1>
+
+    <form action="/guardar" method="POST">
+        <label for="task">Nombre de la tarea:</label>
+        <input type="text" id="task" name="task" required>
+        
+        <button type="submit">Guardar Tarea</button>
+        <a href="/">Cancelar</a>
+    </form>
+</body>
+</html>

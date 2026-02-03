@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Mis Tareas</title>
+</head>
+
+<body>
+    <h1>Lista de Pendientes</h1>
+
+    <a href="/crear" class="btn">Agregar Nueva Tarea</a>
+
+    <ul>
+        <% listaDeTareas.forEach(item=> { %>
+            <li>
+                <strong>#<%= item.id %>:</strong>
+                <%= item.task %>
+                    <a href="/eliminar/<%= item.id %>" style="color: red; margin-left: 10px;"
+                        onclick="return confirm('¿Seguro que quieres borrar esta tarea?')">
+                        [Eliminar]
+                    </a>
+            </li>
+            <% }) %>
+    </ul>
+
+</body>
+
+</html>
