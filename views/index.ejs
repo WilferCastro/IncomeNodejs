@@ -15,12 +15,11 @@
     <ul>
         <% listaDeTareas.forEach(item=> { %>
             <li>
-                <strong>#<%= item.id %>:</strong>
                 <%= item.task %>
-                    <a href="/eliminar/<%= item.id %>" style="color: red; margin-left: 10px;"
-                        onclick="return confirm('¿Seguro que quieres borrar esta tarea?')">
-                        [Eliminar]
-                    </a>
+                    <div>
+                        <a href="/editar/<%= item.id %>" style="color: blue;">[Editar]</a>
+                        <a href="/eliminar/<%= item.id %>" style="color: red;">[Eliminar]</a>
+                    </div>
             </li>
             <% }) %>
     </ul>

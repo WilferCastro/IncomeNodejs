@@ -40,6 +40,27 @@ exports.deleteTask = (req, res) => {
 };
 
 
+
+// 1. Muestra el formulario de edición
+exports.renderEditForm = (req, res) => {
+    const id = req.params.id;
+    Task.getById(id, (err, task) => {
+        if (err || !task) return res.status(404).send("Tarea no encontrada");
+        res.render('edit', { task: task });
+    });
+};
+
+// 2. Procesa la actualización
+exports.updateTask = (req, res) => {
+    const id = req.params.id;
+    const updatedTask = req.body.task;
+    Task.update(id, updatedTask, (err) => {
+        if (err) return res.status(500).send("Error al actualizar");
+        res.redirect('/');
+    });
+};
+
+
 exports.renderForm = (req, res) => {
     res.render('create'); 
 };

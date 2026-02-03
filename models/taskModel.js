@@ -18,6 +18,22 @@ const Task = {
         });
     },
 
+    // Para obtener los datos actuales antes de editar
+    getById: (id, callback) => {
+        const sql = "SELECT * FROM tasks WHERE id = ?";
+        db.get(sql, [id], (err, row) => {
+            callback(err, row);
+        });
+    },
+
+    // Para guardar los cambios
+    update: (id, newTask, callback) => {
+        const sql = "UPDATE tasks SET task = ? WHERE id = ?";
+        db.run(sql, [newTask, id], (err) => {
+            callback(err);
+        });
+    },
+
     delete: (id, callback) => {
         const sql = "DELETE FROM tasks WHERE id = ?";
         db.run(sql, [id], (err) => {
