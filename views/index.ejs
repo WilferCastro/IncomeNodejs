@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
+<h1>Lista de Pendientes</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Mis Tareas</title>
-</head>
+<a href="/crear" class="btn">Agregar Nueva Tarea</a>
 
-<body>
-    <h1>Lista de Pendientes</h1>
+<ul>
+    <% listaDeTareas.forEach(item=> { %>
+        <li>
+            <%= item.task %>
+                <div>
+                    <a href="/editar/<%= item.id %>" style="color: blue;">[Editar]</a>
+                    <a href="/eliminar/<%= item.id %>" class="btn-delete" data-task="<%= item.task %>"
+                        style="color: red;">[Eliminar]</a>
+                </div>
+        </li>
+        <% }) %>
+</ul>
 
-    <a href="/crear" class="btn">Agregar Nueva Tarea</a>
 
-    <ul>
-        <% listaDeTareas.forEach(item=> { %>
-            <li>
-                <%= item.task %>
-                    <div>
-                        <a href="/editar/<%= item.id %>" style="color: blue;">[Editar]</a>
-                        <a href="/eliminar/<%= item.id %>" style="color: red;">[Eliminar]</a>
-                    </div>
-            </li>
-            <% }) %>
-    </ul>
-
-</body>
-
-</html>
+<script src="/js/indexScript.js"></script>

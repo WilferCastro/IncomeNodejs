@@ -1,49 +1,56 @@
-const db = require('../database') // Asegúrate de que apunte a tu archivo de conexión
+const db = require('../database'); // Asegúrate de que este archivo use 'pg' (Pool)
 
 const Task = {
+    // Obtener todas las tareas
     getAll: (callback) => {
-        const sql = "SELECT id, task FROM tasks";
-        db.all(sql, [], (err, rows) => {
+        const sql = "SELECT id, task FROM tasks ORDER BY id ASC";
+        db.query(sql, (err, result) => {
             if (err) {
                 return callback(err);
             }
-            callback(null, rows);
+            // En PostgreSQL los datos están en result.rows
+            callback(null, result.rows);
         });
     },
 
+    // Crear una nueva tarea
     create: (text, callback) => {
-        const sql = "INSERT INTO tasks (task) VALUES (?)";
-        db.run(sql, [text], (err) => {
+        const sql = "INSERT INTO tasks (task) VALUES ($1)";
+        db.query(sql, [text], (err) => {
             callback(err);
         });
     },
 
-    // Para obtener los datos actuales antes de editar
+    // Obtener una tarea por ID para editar
     getById: (id, callback) => {
-        const sql = "SELECT * FROM tasks WHERE id = ?";
-        db.get(sql, [id], (err, row) => {
-            callback(err, row);
+        const sql = "SELECT * FROM tasks WHERE id = $1";
+        db.query(sql, [id], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            // Retornamos solo el primer resultado (la fila)
+            callback(null, result.rows[0]);
         });
     },
 
-    // Para guardar los cambios
+    // Guardar los cambios de una edición
     update: (id, newTask, callback) => {
-        const sql = "UPDATE tasks SET task = ? WHERE id = ?";
-        db.run(sql, [newTask, id], (err) => {
+        const sql = "UPDATE tasks SET task = $1 WHERE id = $2";
+        db.query(sql, [newTask, id], (err) => {
             callback(err);
         });
     },
 
+    // Eliminar una tarea
     delete: (id, callback) => {
-        const sql = "DELETE FROM tasks WHERE id = ?";
-        db.run(sql, [id], (err) => {
+        const sql = "DELETE FROM tasks WHERE id = $1";
+        db.query(sql, [id], (err) => {
             callback(err);
         });
     },
-
 };
 
 module.exports = Task;
 
-    
+
 

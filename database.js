@@ -1,18 +1,20 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+require('dotenv').config();
+const { Pool } = require('pg');
 
-let db;
+// Creamos la conexión para Supabase (PostgreSQL)
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false // Requerido para conexiones seguras con Supabase
+  }
+});
 
-// Si estamos en desarrollo, usamos SQLite
-if (process.env.NODE_ENV === 'development') {
-    const dbPath = path.resolve(__dirname, process.env.DATABASE_URL);
-    db = new sqlite3.Database(dbPath, (err) => {
-        if (err) console.error("Error con SQLite:", err.message);
-        else console.log("Conectado a SQLite local");
-    });
-} else {
-    // Aquí irá la conexión a Supabase (PostgreSQL) más adelante
-    console.log("Configurando conexión a PostgreSQL para producción...");
-}
+db.connect((err) => {
+  if (err) {
+    console.error('❌ Error conectando a Supabase:', err.stack);
+  } else {
+    console.log('☁️ Conectado exitosamente a Supabase (PostgreSQL)');
+  }
+});
 
 module.exports = db;
